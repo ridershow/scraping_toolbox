@@ -2,59 +2,62 @@
 
 ## How Datadome protects website
 
-### Détection en temps réel : Critères techniques
+### Real-time detection: Technical criteria
 
-Dans la première phase de détection, le module DataDome analyse les données techniques du visiteur. C’est un processus en temps réel ne nécessitant aucun accès ni aux disques, ni à la base de données.
-L’analyse repose sur l’utilisation massive du cache en mémoire : Reverse DNS DataBase, réputation IP, et compteurs, intégralement stockés en mémoire.
-Voici quelques uns des critères techniques analysés
+In the first phase of detection, the DataDome module analyzes the visitor’s technical data. This is a real-time process involving no disk access and no database access.
+
+The analysis relies on massive usage of in-memory cache: in-memory Reverse DNS DataBase, in-memory IP reputation and in-memory counters.
+
+Here are a few of the technical triggers analyzed.
 
 #### UserAgent
-Les navigateurs envoient leur nom (le UserAgent) avec chaque requête. Cet élément est purement déclaratif. Il est donc évidemment exclu de l’utiliser en whitelist (vous seriez surpris de voir le nombre de «  »GoogleBots » » qui crawlent depuis AWS…).
-En revanche, s’appuyer sur le USerAgent pour constituer une blacklist est efficace pour bloquer les robots les plus basiques, qui représentent environ 20 % des bad bots. Que ce soit Nginx, Varnish, ou Apache, tous les web serveurs offrent la possibilité de définir des règles basées sur le UserAgent.
-L’algorithme DataDome analyse également la validité du UserAgent. Par exemple, certains robots utilisent des générateurs de UserAgent, qui peuvent créer des combinaisons invalides (comme IE11 sur Windows XP). Un excellent moyen de les démasquer. De même, un trafic important provenant d’IE 5.5 ou Netscape est plus qu’improbable en 2018.
+With every query, the browser unveils its name: the UserAgent. It’s a purely declarative element, which means it can’t be used for whitelisting. There’s a surprising number of “GoogleBots” crawling through AWS!
 
-#### Réputation IP
-Certains SysAdmin ont développé des outils maison ou mis en place Fail2Ban, une solution bien connue des utilisateurs de Linux, pour bloquer les adresses IP indésirables. Cependant, certains ISP utilisent une seule IP pour des dizaines, voire des centaines d’utilisateurs, ce qui peut conduire au blocage involontaire d’utilisateurs légitimes.
-DataDome a constitué une base de données interne de réputation IP, tirant parti des milliards de visites que nous analysons chaque jour pour l’ensemble de nos clients. Cette base de données est mise à jour en permanence, afin que chacun de nos clients puisse bénéficier de l’intelligence collective et des connaissances acquises sur l’ensemble des sites et des API que protège la solution DataDome.
- 
+On the other hand, using the UserAgent as a blacklisting tool can help block basic bots, amounting to approximately 20% of all bad bot activity. Any web server – Nginx, Varnish or Apache – can define blocking rules based on the UserAgent.
 
-#### Propriétaire de l’adresse IP
-La nature du propriétaire de l’adresse IP (ASN) et de son range (blocs CIDR) fournit également des informations précieuses. Est-ce un FAI, un hébergeur, une entreprise ou une organisation, et de quel type ? Où se situe l’adresse IP, et sa localisation est-elle cohérente avec l’audience du site ?
+The DataDome algorithm also analyzes UserAgent validity. For example, some bots use UserAgent generators, which sometimes create invalid combinations (like IE11 used on Windows XP). This is a great way to unmask fraudulent activity. Likewise, massive traffic coming from browsers such as IE 5.5 or Netscape is unlikely to be legitimate in 2019.
 
-#### intégrité du Header
-Chaque navigateur a sa propre implémentation HTTP. Cela nous permet de créer une base de données unique d’empreintes digitales, pour démasquer les faux navigateurs qui ne possèdent pas l’empreinte digitale parfaite.
+#### IP Reputation
+Many SysAdmins rely on home-made tools or on the famous Linux-based solution Fail2Ban for automated blocking of unwanted IP addresses. However, some companies and ISPs use a single IPs for dozens – if not hundreds – of users, which can lead to the unnecessary blocking of legitimate users.
 
-#### Challenge JavaScript
-Notre Challenge JavaScript présente à chaque visiteur un code JavaScript comprenant différents défis.
-Les bots très basiques ne déclencheront probablement pas le JavaScript, ce qui est en soi un indice de détection. Mais nous allons bien au-delà. Notre Challenge JavaScript nous permet de détecter les technologies de crawling les plus avancées, telles que PhantomJS et même 
+DataDome has built an in-house IP reputation database, leveraging the billions of hits we analyze each day for all of our customers. This database is constantly updated, so that each and every one of our customers can benefit from the collective experience and knowledge gathered from all the websites and APIs that the DataDome solution protects. 
 
-#### Chrome Headless.
-Nous améliorons constamment nos Challenges JavaScript, afin de détecter des technologies de robots crawlers toujours plus sophistiquées.
+#### IP owner
+The nature of the IP owner (ASN) and range (CIDR blocks) also provides valuable information. Is it an ISP, a host, a company or an organization, and what kind? Where is the IP location, and does it match the normal website audience?
 
+#### Header integrity
+Each browser has its own HTTP implementation. This allows us to create a unique fingerprint database to unveil fake browsers that didn’t comply with the perfect fingerprint.
 
-#### Challenge Cookie
-Dans le même esprit que le Challenge JavaScript, le Challenge Cookie envoie un cookie à chaque visiteur et demande au client web de le renvoyer. Les navigateurs légitimes vont le faire de manière transparente, tandis que de nombreux robots ne peuvent pas accepter les cookies et ne réussissent pas le test.
+#### JavaScript Challenge 
+Our JavaScript Challenge presents every visitor with a JavaScript code that includes different challenges.
 
+Very basic bots probably won’t trigger the JavaScript, which is in itself a detection hint. But we go far beyond this, and are able to use our JavaScript Challege to detect advanced crawling technologies such as PhantomJS and even Chrome Headless.
 
-#### Détection en streaming : Données statistiques
-Les hits qui passent avec succès la détection technique en temps réel sont ensuite soumis à une nouvelle analyse après les premières secondes d’activité. Cette analyse sera comparée aux normes statistiques.
-Aux fins de cette analyse, DataDome capte toutes sortes de métriques dans des délais différents. Les valeurs sont ensuite comparées aux modèles standards correspondant aux comportements humains. Si un profil non standard est détecté, il est alors catégorisé comme un bot.
-Voici quelques indicateurs sur lesquels repose la solution DataDome :
+We are constantly improving our JavaScript Challenges, in order to detect ever more sophisticated crawling bot technologies. 
 
-* Nombre de hits par adresse IP : beaucoup de bots, particulièrement les web scrapers et les hackers, peuvent indexer des milliers de pages en quelques minutes, à la recherche de l’information pertinente ou des failles de sécurité.
-* Sessions par adresse IP : combien de sessions actives pour une adresse IP unique dans une période donnée ?
-* Vitesse de crawl (nombre de hits par minute) : un robot peut indexer et stocker une page de contenu en un rien de temps. Une adresse IP unique visitant un grand nombre de pages en un laps de temps court révèle fréquemment une activité frauduleuse.
-* Récurrence des hits : les bots suivent des règles strictes et précises en termes de fréquence des visites, vitesse de crawl etc.
-* Nombre de hits générant des erreurs 404 : les bots traquant les failles de sécurité logicielles génèrent des URL spécifiques à des applicatifs, essayant de détecter ainsi une brèche dans l’architecture de votre site web pour le pirater.
-
-Bien qu’il soit rarement possible de prendre une décision éclairée en se basant uniquement sur de telles données, elles fournissent une contribution essentielle à nos algorithmes de surveillance en temps réel.
+#### Cookie Challenge 
+Based on the same principles as the JavaScript Challenge, the Cookie Challenge sends every visitor a cookie and requests that the client send it back. Legitimate browsers will do this seamlessly, while many bots can’t accept cookies and will fail the test.
 
 
-#### Détection comportementale
+### Streaming detection: Statistical criteria
+
+Hits that bypass the real-time technical detection will next be submitted to an analysis of the first seconds of activity, compared to statistical norms.
+
+For the purpose of this analysis, DataDome measures all kinds of metrics in different timeframes. These metrics are then matched against standard patterns corresponding to human behaviors. If a non-standard profile is detected, it is then categorized as a bot.
+
+Here are some of the metrics measured by the DataDome solution:
+
+* Number of hits per IP address: Many bots, especially web scrapers and hacker bots, will crawl thousands of pages in minutes looking for relevant content or safety flaws.
+* Sessions per IP address: How many sessions are active for a single IP address in a given timeframe.
+* Crawling speed (hot volume per minute): A bot can scrape and store many pages’ worth of content in no time. A unique IP address visiting a large number of pages in little time usually indicates fraudulent activity.
+* Recurring hits: bots follow strict and precise rules, in terms of visits, crawl frequency, etc.
+* Hits generating 404 errors: bots looking for security flaws generate random URLs, hoping to detect a breach in the architecture of your website. An IP address generating an unusually large amount of 404 pages might be looking for such a flaw.
+While it’s rarely possible to make an informed decision based on such patterns alone, they provide essential input to our real-time monitoring algorithms.
+
+### Behavioral detection
 The final phase in our detection process is behavioral analysis. At this stage, only the most sophisticated bots have eschewed detection.
 
 This analysis takes a little more time, and is performed asynchronously.
-
 
 #### Sessions
 
@@ -71,6 +74,15 @@ As bots are becoming increasingly adept at imitating human users, the analysis o
 That’s why the DataDome bot detection solution makes use of Big Data to analyze the visitor’s path on the site.
 
 Once set up, our solution tracks every hit your website receives. It gathers data from each individual user, human or not, and use an in-house blend of AI and machine learning for real-time comparison with our knowledge base of legitimate usage patterns.
+
+### Data Access Landing Page
+If our identification is still not conclusive after all three stages of detection, we present the visitor with a Data Access Page.
+
+This page includes a CAPTCHA, an important tool to measure false positives and provide a feedback loop for our algorithm. Our machine learning system continuously adjusts the rules based on the number and characteristics of false positives.
+
+What about CAPTCHA-solving farms and clever bot algorithms that have learnt how to solve them? DataDome’s answer is to continue to track and monitor users who pass the CAPTCHA, in order to analyze their usage patterns and find out whether they’re human or not. This can lead to CAPTCHA invalidation, when we observe fraudulent usage of session authorization.
+
+----
 
 ## inspect outgoing HTTP requests of a single application
 
