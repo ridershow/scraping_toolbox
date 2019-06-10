@@ -122,4 +122,6 @@ tcp port 80
 dst 1.2.3.4
 specify a destination ip address```
 
+To exit Root mode, simply do `CMD + D`
+
 More informations about TCPDUMP here --> https://danielmiessler.com/study/tcpdump/
