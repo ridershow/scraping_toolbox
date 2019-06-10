@@ -1,4 +1,4 @@
-# scraping_toolbox
+# Avoid getting block while Scraping websites 
 
 ## How Datadome protects website
 
