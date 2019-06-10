@@ -82,8 +82,6 @@ This page includes a CAPTCHA, an important tool to measure false positives and p
 
 What about CAPTCHA-solving farms and clever bot algorithms that have learnt how to solve them? DataDome’s answer is to continue to track and monitor users who pass the CAPTCHA, in order to analyze their usage patterns and find out whether they’re human or not. This can lead to CAPTCHA invalidation, when we observe fraudulent usage of session authorization.
 
-----
-
 ## inspect outgoing HTTP requests of a single application
 
 Obtain root in a terminal with
