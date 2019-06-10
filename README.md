@@ -129,3 +129,11 @@ More informations about TCPDUMP here --> https://danielmiessler.com/study/tcpdum
 ---------
 
 API Se Loger --> https://ws-seloger.svc.groupe-seloger.com
+
+
+---------
+### HTTP Cookie
+https://en.wikipedia.org/wiki/HTTP_cookie
+
+### HTTP Header
+https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
