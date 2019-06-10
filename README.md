@@ -59,11 +59,11 @@ Once set up, our solution tracks every hit your website receives. It gathers dat
 
 Obtain root in a terminal with
 
-sudo -i
+`sudo -i`
 
 capture the RAW packets
 
-sudo tcpdump -i any -w /tmp/http.log &
+`sudo tcpdump -i any -w /tmp/http.log &`
 
 capture all the raw packets, on all ports, on all interfaces and write them to a file, /tmp/http.log.
 
@@ -71,22 +71,22 @@ Run your application. It obviously helps if you do not run any other application
 
 Kill tcpdump
 
-killall tcpdump
+`killall tcpdump`
 To read the log, use the -A flag and pipe the output toless:
 
-tcpdump -A -r /tmp/http.log | less
-The -A flag prints out the "payload" or ASCII text in the packets. This will send the output to less, you can page up and down. To exit less, type Q
+`tcpdump -A -r /tmp/http.log | less`
 
+The -A flag prints out the "payload" or ASCII text in the packets. This will send the output to less, you can page up and down. To exit less, type Q
 
 Some helpful flags (options):
 
--i Specify an interface
+```-i Specify an interface
 -i eth0
 
 tcp port xx
 tcp port 80
 
 dst 1.2.3.4
-specify a destination ip address
+specify a destination ip address```
 
 More informations about TCPDUMP here --> https://danielmiessler.com/study/tcpdump/
