@@ -2,6 +2,12 @@
 
 ## How Datadome protects website
 
+The DataDome bot detection technology involves three distinct phases:
+
+* Real-time detection (in milliseconds) based on the visitor’s technical information
+* Streaming detection (in seconds) using statistical data
+* Behavioral detection (in minutes) leveraging Big Data and machine learning
+
 ### Real-time detection: Technical criteria
 
 In the first phase of detection, the DataDome module analyzes the visitor’s technical data. This is a real-time process involving no disk access and no database access.
