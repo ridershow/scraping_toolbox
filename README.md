@@ -113,14 +113,14 @@ The -A flag prints out the "payload" or ASCII text in the packets. This will sen
 
 Some helpful flags (options):
 
-```-i Specify an interface
--i eth0
+        -i Specify an interface
+        -i eth0
 
-tcp port xx
-tcp port 80
+        tcp port xx
+        tcp port 80
 
-dst 1.2.3.4
-specify a destination ip address```
+        dst 1.2.3.4
+        specify a destination ip address
 
 To exit Root mode, simply do `CMD + D`
 
