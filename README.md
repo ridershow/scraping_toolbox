@@ -13,12 +13,12 @@ Les navigateurs envoient leur nom (le UserAgent) avec chaque requête. Cet élé
 En revanche, s’appuyer sur le USerAgent pour constituer une blacklist est efficace pour bloquer les robots les plus basiques, qui représentent environ 20 % des bad bots. Que ce soit Nginx, Varnish, ou Apache, tous les web serveurs offrent la possibilité de définir des règles basées sur le UserAgent.
 L’algorithme DataDome analyse également la validité du UserAgent. Par exemple, certains robots utilisent des générateurs de UserAgent, qui peuvent créer des combinaisons invalides (comme IE11 sur Windows XP). Un excellent moyen de les démasquer. De même, un trafic important provenant d’IE 5.5 ou Netscape est plus qu’improbable en 2018.
 
-####Réputation IP
+#### Réputation IP
 Certains SysAdmin ont développé des outils maison ou mis en place Fail2Ban, une solution bien connue des utilisateurs de Linux, pour bloquer les adresses IP indésirables. Cependant, certains ISP utilisent une seule IP pour des dizaines, voire des centaines d’utilisateurs, ce qui peut conduire au blocage involontaire d’utilisateurs légitimes.
 DataDome a constitué une base de données interne de réputation IP, tirant parti des milliards de visites que nous analysons chaque jour pour l’ensemble de nos clients. Cette base de données est mise à jour en permanence, afin que chacun de nos clients puisse bénéficier de l’intelligence collective et des connaissances acquises sur l’ensemble des sites et des API que protège la solution DataDome.
  
 
-####Propriétaire de l’adresse IP
+#### Propriétaire de l’adresse IP
 La nature du propriétaire de l’adresse IP (ASN) et de son range (blocs CIDR) fournit également des informations précieuses. Est-ce un FAI, un hébergeur, une entreprise ou une organisation, et de quel type ? Où se situe l’adresse IP, et sa localisation est-elle cohérente avec l’audience du site ?
 
 #### intégrité du Header
@@ -40,11 +40,13 @@ Dans le même esprit que le Challenge JavaScript, le Challenge Cookie envoie un 
 Les hits qui passent avec succès la détection technique en temps réel sont ensuite soumis à une nouvelle analyse après les premières secondes d’activité. Cette analyse sera comparée aux normes statistiques.
 Aux fins de cette analyse, DataDome capte toutes sortes de métriques dans des délais différents. Les valeurs sont ensuite comparées aux modèles standards correspondant aux comportements humains. Si un profil non standard est détecté, il est alors catégorisé comme un bot.
 Voici quelques indicateurs sur lesquels repose la solution DataDome :
-Nombre de hits par adresse IP : beaucoup de bots, particulièrement les web scrapers et les hackers, peuvent indexer des milliers de pages en quelques minutes, à la recherche de l’information pertinente ou des failles de sécurité.
-Sessions par adresse IP : combien de sessions actives pour une adresse IP unique dans une période donnée ?
-Vitesse de crawl (nombre de hits par minute) : un robot peut indexer et stocker une page de contenu en un rien de temps. Une adresse IP unique visitant un grand nombre de pages en un laps de temps court révèle fréquemment une activité frauduleuse.
-Récurrence des hits : les bots suivent des règles strictes et précises en termes de fréquence des visites, vitesse de crawl etc.
-Nombre de hits générant des erreurs 404 : les bots traquant les failles de sécurité logicielles génèrent des URL spécifiques à des applicatifs, essayant de détecter ainsi une brèche dans l’architecture de votre site web pour le pirater.
+
+* Nombre de hits par adresse IP : beaucoup de bots, particulièrement les web scrapers et les hackers, peuvent indexer des milliers de pages en quelques minutes, à la recherche de l’information pertinente ou des failles de sécurité.
+* Sessions par adresse IP : combien de sessions actives pour une adresse IP unique dans une période donnée ?
+* Vitesse de crawl (nombre de hits par minute) : un robot peut indexer et stocker une page de contenu en un rien de temps. Une adresse IP unique visitant un grand nombre de pages en un laps de temps court révèle fréquemment une activité frauduleuse.
+* Récurrence des hits : les bots suivent des règles strictes et précises en termes de fréquence des visites, vitesse de crawl etc.
+* Nombre de hits générant des erreurs 404 : les bots traquant les failles de sécurité logicielles génèrent des URL spécifiques à des applicatifs, essayant de détecter ainsi une brèche dans l’architecture de votre site web pour le pirater.
+
 Bien qu’il soit rarement possible de prendre une décision éclairée en se basant uniquement sur de telles données, elles fournissent une contribution essentielle à nos algorithmes de surveillance en temps réel.
 
 
