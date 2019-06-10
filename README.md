@@ -137,3 +137,5 @@ https://en.wikipedia.org/wiki/HTTP_cookie
 
 ### HTTP Header
 https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+
+http://go-colly.org/articles/scraping_related_http_headers/
